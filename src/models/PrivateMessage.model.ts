@@ -1,6 +1,6 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
-export interface IPrivateMessage {
+export interface IPrivateMessage extends Document {
     from: String,
     email: String,
     belongsTo: mongoose.Types.ObjectId,

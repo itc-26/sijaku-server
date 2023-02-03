@@ -1,7 +1,8 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 import jwt from "jsonwebtoken";
 
-export interface IUser {
+export interface IUser extends Document {
+    _id?: String 
     name : String,
     password: String,
     grade: "X_SIJA_1" | "X_SIJA_2" |  "XI_SIJA_1" | "XI_SIJA_2" | "XII_SIJA_1" | "XII_SIJA_2" | "XIII_SIJA_1" | "XIII_SIJA_2",
@@ -71,12 +72,12 @@ const UserSchema = new Schema<IUser>({
 })
 
 UserSchema.methods = {
-    createAccessToken : async function (){
+    createAccessToken : function (){
         try{
             const {_id} = this;
-            const detailkutoken = await jwt.sign({
+            const detailkutoken = jwt.sign({
                 "uid" : _id
-            },process.env.SECRET_AT,{
+            },process.env.SECRET_AT!,{
                 expiresIn : "2d"
             });
 

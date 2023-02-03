@@ -1,7 +1,7 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 import jwt from "jsonwebtoken";
 
-export interface Iadmin {
+export interface Iadmin extends Document{
     username : String,
     password: String
 }
@@ -18,12 +18,12 @@ const AdminSchema = new Schema<Iadmin>({
 })
 
 AdminSchema.methods = {
-    createAccessToken : async function(){
+    createAccessToken : function(){
         try{
             const {_id} = this;
-            const detailkutoken = await jwt.sign({
+            const detailkutoken = jwt.sign({
                 "uid" : _id
-            },process.env.SECRET_AT,{
+            },process.env.SECRET_AT!,{
                 expiresIn : "1d"
             });
 

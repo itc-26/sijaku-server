@@ -1,6 +1,6 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
-export interface ICertificate {
+export interface ICertificate extends Document {
     belongsTo : mongoose.Types.ObjectId,
     title: String,
     organizer : String,

@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-export interface IJobVacancy {
+export interface IJobVacancy extends Document {
     title : String,
     description : String,
     reqruiter : String,

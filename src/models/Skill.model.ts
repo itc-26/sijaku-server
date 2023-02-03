@@ -1,6 +1,6 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
-export interface ISkill {
+export interface ISkill extends Document{
     belongsTo : mongoose.Types.ObjectId,
     skillName: String,
     percentage :  Number

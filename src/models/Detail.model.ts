@@ -1,7 +1,7 @@
-import mongoose, { Schema, model } from "mongoose";
+import mongoose, { Schema, model, Document } from "mongoose";
 
 
-export interface IDetailSchema { 
+export interface IDetailSchema extends Document { 
     belongsTo : mongoose.Types.ObjectId,
     description: String,
     instagram: String,

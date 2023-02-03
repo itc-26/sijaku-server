@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-export interface IMemo {
+export interface IMemo extends Document {
     sender: String,
     message: String
 }
