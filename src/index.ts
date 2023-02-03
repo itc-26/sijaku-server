@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
 import {dbConfig} from "./configs/connection.config";
 import morgan from "morgan"; 
 
+import authRouter from "./routers/auth.router";
+
 const app = express();
 
 
@@ -13,6 +15,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }))
 
+
+app.use("/api/auth", authRouter);
 
 mongoose.connect(dbConfig as string)
     .then(() => {
