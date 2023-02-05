@@ -1,5 +1,4 @@
 import express from "express";
-import {login} from "../controllers/auth.controller";
 import { allData, gradeBased, usernnameBased, jobData } from "../controllers/public.controller";
 
 const publicRouter = express.Router();
