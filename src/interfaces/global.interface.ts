@@ -17,3 +17,9 @@ export interface IRequest extends Request {
     },
     bucket : ICertificate | IProject | ISkill | IDetailSchema | IPrivateMessage | IDetailSchema | null
 }
+
+export interface IPublicDataAll {
+    _id: string,
+    count: number,
+    link?: string
+}
