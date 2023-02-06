@@ -2,9 +2,10 @@ import errorHandler from "../utils/handler.utils";
 
 import { Request, Response } from "express"
 import UserModel, { IUser } from "../models/User.model";
-
 import { IPublicDataAll } from "../interfaces/global.interface";
 import JobVacancyModel from "../models/Job.model";
+import MemoModel, { IMemo } from "../models/memo.model";
+import PrivateMessageModel, {IPrivateMessage} from "../models/PrivateMessage.model";
 
 export const allData = async (req: Request, res: Response) => {
     try{
@@ -112,6 +113,80 @@ export const jobData = async (req: Request, res: Response) => {
             ok : true,
             data: data
         })
+    }catch(e){
+        const error = e as Error;
+        return errorHandler(error, res);
+    }
+}
+
+export const memo = async (req: Request, res: Response) => {
+    try{
+
+        const data = await MemoModel.find();
+
+        return res.status(200).json({
+            ok: true,
+            data: data
+        })
+
+    }catch(e){
+        const error = e as Error;
+        return errorHandler(error, res);
+    }
+}
+
+
+// post
+
+export const postMemo = async (req: Request, res: Response) => {
+    try{
+        const body: IMemo = req.body;
+
+        const data = new MemoModel(body);
+        
+        await data.save()
+
+        return res.status(200).json({
+            ok : true,
+            data : data
+        })
+
+
+    }catch(e){
+        const error = e as Error;
+        return errorHandler(error, res);
+    }
+}
+
+export const privateMessage = async (req: Request, res: Response) => {
+    try{
+        
+        const {userId} = req.params;
+        const body: IPrivateMessage = req.body;
+        const user = await UserModel.findOne({_id: userId});
+
+        if(user){
+
+            const message = new PrivateMessageModel({
+                ...body,
+                belongsTo: user._id
+            });
+
+            user.privateMessage.push(message._id);
+
+            await message.save();
+            await user.save();
+
+            return res.status(200).json({
+                ok : true,
+                message: "Message Was Sent"
+            })
+
+        }
+
+        throw({name: "UNF"});
+
+
     }catch(e){
         const error = e as Error;
         return errorHandler(error, res);
