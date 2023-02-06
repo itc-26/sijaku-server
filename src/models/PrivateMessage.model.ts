@@ -30,7 +30,7 @@ const PrivateMessageSchema = new Schema<IPrivateMessage>({
     }
 })
 
-const PrivateMessageModel = model("PrivateMessage", PrivateMessageSchema);
+const PrivateMessageModel = model<IPrivateMessage>("PrivateMessage", PrivateMessageSchema);
 
 
 export default PrivateMessageModel;
