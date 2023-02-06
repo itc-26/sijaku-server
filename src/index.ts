@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({
 
 
 app.use("/api/auth", authRouter);
-app.use("/api/public/data", publicRouter);
+app.use("/api/public", publicRouter);
 
 mongoose.connect(dbConfig as string)
     .then(() => {
