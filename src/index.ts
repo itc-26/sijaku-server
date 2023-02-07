@@ -6,6 +6,7 @@ import morgan from "morgan";
 
 import authRouter from "./routers/auth.router";
 import publicRouter from "./routers/public.router";
+import userRouter from "./routers/user.router";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({
 
 app.use("/api/auth", authRouter);
 app.use("/api/public", publicRouter);
+app.use("/api/user", userRouter);
 
 mongoose.connect(dbConfig as string)
     .then(() => {
