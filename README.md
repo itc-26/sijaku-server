@@ -27,6 +27,23 @@ ExpressJS based REST API intended for [detailku-sija](https://github.com/NAoHR/d
 
 ## Routes and its Response
 
+### Auth - `/api/auth`
+Routes that is related to authentication process. This routes are divided into two endpoints 
+-	`/admin/login`
+-	`/user/login`
+
+it accepts requests with `Content-type`of `Application/json`. This routes only accepts `POST` as its request method. Both endpoints are accepts request body with `username` as `string` and `password` as `string`
+
+This route will return this json formatted like below with token generated for the next authorization process.
+```json
+    {
+		"ok": true,
+		"data": {
+			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzJlNmJlMzExYTVlYzdjM2ZjMDg1YTIiLCJpYXQiOjE2NzU0MzY2OTMsImV4cCI6MTY3NTYwOTQ5M30.IRWS1-GPXWWTntd1SiFFhlzjEhycDBKKDACvbB8_dXQ"
+		}
+	}
+```
+
 ## Contributors
 Made with Love by Najmi ~ [najmim625@gmail.com](mailto:najmim625@gmail.com)
 
