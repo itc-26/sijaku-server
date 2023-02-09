@@ -36,12 +36,12 @@ it accepts requests with `Content-type`of `Application/json`. This routes only a
 
 This route will return this json formatted like below with token generated for the next authorization process.
 ```json
-    {
-		"ok": true,
-		"data": {
-			"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzJlNmJlMzExYTVlYzdjM2ZjMDg1YTIiLCJpYXQiOjE2NzU0MzY2OTMsImV4cCI6MTY3NTYwOTQ5M30.IRWS1-GPXWWTntd1SiFFhlzjEhycDBKKDACvbB8_dXQ"
-		}
+{
+	"ok": true,
+	"data": {
+		"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2MzJlNmJlMzExYTVlYzdjM2ZjMDg1YTIiLCJpYXQiOjE2NzU0MzY2OTMsImV4cCI6MTY3NTYwOTQ5M30.IRWS1-GPXWWTntd1SiFFhlzjEhycDBKKDACvbB8_dXQ"
 	}
+}
 ```
 
 ## Contributors
