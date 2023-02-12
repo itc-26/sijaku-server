@@ -1,11 +1,16 @@
 import errorHandler from "../utils/handler.utils";
 
 import { Request, Response } from "express"
-import UserModel, { IUser } from "../models/User.model";
+import User, {IUser} from "../models/User.model";
 import { IPublicDataAll } from "../interfaces/global.interface";
 import JobVacancyModel from "../models/Job.model";
 import MemoModel, { IMemo } from "../models/memo.model";
 import PrivateMessageModel, {IPrivateMessage} from "../models/PrivateMessage.model";
+
+require("../models/Project.model");
+require("../models/Detail.model");
+require("../models/Skill.model");
+require("../models/Cert.model")
 
 export const allData = async (req: Request, res: Response) => {
     try{
@@ -16,14 +21,14 @@ export const allData = async (req: Request, res: Response) => {
                 count : {$sum : 1}
             }
         }
-
-        const data: IPublicDataAll[] = await UserModel.aggregate([aggregation]);
+        
+        const data: IPublicDataAll[] = await User.aggregate([aggregation]);
         const finalData: Record<string, any> = {}
 
         data.forEach((v) => {
             finalData[v._id] = Object.assign(v, {
                 grade: v._id.replaceAll("_", " "), 
-                link: `${req.baseUrl}/grade/${v._id}`
+                link: `${req.baseUrl}/student/grade/${v._id}`
             })
         })
         
@@ -52,7 +57,7 @@ export const gradeBased = async (req: Request, res: Response) => {
                 $unset: "password"
             }
         ]
-        const data: Array<Omit<IUser ,"password">> = await UserModel.aggregate(aggregation)
+        const data: Array<Omit<IUser ,"password">> = await User.aggregate(aggregation)
 
         if(data.length > 0){
             return res.status(200).json({
@@ -62,7 +67,7 @@ export const gradeBased = async (req: Request, res: Response) => {
                     students: data.map((v) => {
                         return {
                             ...v,
-                            link: `${req.baseUrl}/user/${v.username}`
+                            link: `${req.baseUrl}/student/user/${v.username}`
                         }
                     })
                 }
@@ -81,25 +86,22 @@ export const gradeBased = async (req: Request, res: Response) => {
 export const usernnameBased = async (req: Request, res: Response) => {
     try{
         const {username} = req.params;
-        const aggregation = [
-            {
-                $match : {
-                    username : username
-                }
-            },
-            {
-                $unset: "password"
-            }
-        ]
-        const data = await UserModel.aggregate(aggregation)
+        
+        const data = await User.find({username: username})
+            .populate("skills")
+            .populate("certificates")
+            .populate("projects")
+            .populate("details")
+            .select({password : 0, privateMessages: 0});
 
-        if(data.length > 0){
+        if(data){
             return res.status(200).json({
                 ok: true,
-                data: data[0]
+                data: data
             })
         }
     }catch(e){
+        console.log(e)
         const error = e as Error;
         return errorHandler(error, res);
     }
@@ -160,19 +162,17 @@ export const postMemo = async (req: Request, res: Response) => {
 
 export const privateMessage = async (req: Request, res: Response) => {
     try{
-        
         const {userId} = req.params;
         const body: IPrivateMessage = req.body;
-        const user = await UserModel.findOne({_id: userId});
+        const user = await User.findOne({_id: userId});
 
         if(user){
-
             const message = new PrivateMessageModel({
                 ...body,
                 belongsTo: user._id
             });
 
-            user.privateMessage.push(message._id);
+            user.privateMessages.push(message._id);
 
             await message.save();
             await user.save();
