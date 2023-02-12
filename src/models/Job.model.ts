@@ -55,6 +55,6 @@ const JobVacancySchema = new Schema<IJobVacancy>({
 })
 
 
-const JobVacancyModel = model<IJobVacancy>("Jobvacancy", JobVacancySchema);
+const JobVacancy = model<IJobVacancy>("Jobvacancy", JobVacancySchema);
 
-export default JobVacancyModel;
+export default JobVacancy;

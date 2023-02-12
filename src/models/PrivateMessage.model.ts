@@ -1,9 +1,9 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IPrivateMessage extends Document {
     from: String,
     email: String,
-    belongsTo: mongoose.Types.ObjectId,
+    belongsTo: Types.ObjectId,
     message: String
 }
 
@@ -30,7 +30,7 @@ const PrivateMessageSchema = new Schema<IPrivateMessage>({
     }
 })
 
-const PrivateMessageModel = model<IPrivateMessage>("PrivateMessage", PrivateMessageSchema);
+const PrivateMessage = model<IPrivateMessage>("PrivateMessage", PrivateMessageSchema);
 
 
-export default PrivateMessageModel;
+export default PrivateMessage;

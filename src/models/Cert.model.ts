@@ -1,7 +1,7 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface ICertificate extends Document {
-    belongsTo : mongoose.Types.ObjectId,
+    belongsTo : Types.ObjectId,
     title: String,
     organizer : String,
     certID : String,
@@ -33,6 +33,6 @@ const CertSchema = new Schema<ICertificate>({
     }
 })
 
-const CertModel = model<ICertificate>("Cert", CertSchema);
+const UserCert = model<ICertificate>("Certificate", CertSchema);
 
-export default CertModel
+export default UserCert;

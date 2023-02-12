@@ -1,8 +1,8 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 
 export interface IDetailSchema extends Document { 
-    belongsTo : mongoose.Types.ObjectId,
+    belongsTo : Types.ObjectId,
     description: String,
     instagram: String,
     linkedin: String,
@@ -50,6 +50,6 @@ const DetailSchema = new Schema<IDetailSchema>({
 
 
 
-const DetailModel = model<IDetailSchema>("Detail", DetailSchema);
+const UserDetail = model<IDetailSchema>("Detail", DetailSchema);
 
-export default DetailModel;
+export default UserDetail;

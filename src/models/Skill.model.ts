@@ -1,7 +1,7 @@
-import mongoose, { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface ISkill extends Document{
-    belongsTo : mongoose.Types.ObjectId,
+    belongsTo : Types.ObjectId,
     skillName: String,
     percentage :  Number
 }
@@ -25,6 +25,6 @@ const SkillSchema = new Schema<ISkill>({
     }
 })
 
-const SkillModel = model<ISkill>("Skill", SkillSchema);
+const UserSkill = model<ISkill>("Skill", SkillSchema);
 
-export default SkillModel
+export default UserSkill

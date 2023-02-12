@@ -1,33 +1,30 @@
-import mongoose, { Schema, model, Document } from "mongoose";
-import jwt from "jsonwebtoken";
+import { Schema, model, Document, Types } from "mongoose";
 
 export interface IUser extends Document {
-    _id?: String 
-    name : String,
-    password: String,
-    grade: "X_SIJA_1" | "X_SIJA_2" |  "XI_SIJA_1" | "XI_SIJA_2" | "XII_SIJA_1" | "XII_SIJA_2" | "XIII_SIJA_1" | "XIII_SIJA_2",
+    name: String,
+    password: string,
+    grade: "X_SIJA_1" | "X_SIJA_2" | "XI_SIJA_1" | "XI_SIJA_2" | "XII_SIJA_1" | "XII_SIJA_2" | "XIII_SIJA_1" | "XIII_SIJA_2"
     username: String,
-    detail: mongoose.Types.ObjectId,
-    certificate: Schema.Types.ObjectId[],
-    project: Schema.Types.ObjectId[],
-    skill: Schema.Types.ObjectId[],
-    privateMessage: Schema.Types.ObjectId[]
+    details : Types.ObjectId,
+    certificates : Array<Types.ObjectId>,
+    projects : Array<Types.ObjectId>
+    skills : Array<Types.ObjectId>
+    privateMessages : Array<Types.ObjectId>
 }
 
 const UserSchema = new Schema<IUser>({
-    name : {
-        type : String,
-        required : true,
-        minLength : 3
+    name:{
+        type: String,
+        required: true
     },
-    password : {
-        type : String,
-        required : true,
+    password: {
+        type: String,
+        required: true
     },
-    grade : {
-        type : String,
-        required : true,
-        enum : [
+    grade: {
+        type: String,
+        required: true,
+        enum: [
             "X_SIJA_1",
             "X_SIJA_2", 
             "XI_SIJA_1",
@@ -38,57 +35,46 @@ const UserSchema = new Schema<IUser>({
             "XIII_SIJA_2"
         ]
     },
-    username : {
-        type : String,
-        required : true,
-        unique : true
+    username: {
+        type: String,
+        required: true
     },
-    detail : {
+    details: {
         type : Schema.Types.ObjectId,
-        ref : "Detail"
+        ref: "Detail",
+        required: true
     },
-    certificate : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Cert"
-        }
-    ],
-    project : [
-        {
-            type : Schema.Types.ObjectId,
-            ref : "Project"
-        }
-    ],
-    skill : [{
-        type : Schema.Types.ObjectId,
-        ref : "Skill"
-    }],
-    privateMessage: [
+    certificates: [
         {
             type: Schema.Types.ObjectId,
-            ref : "PrivateMessage"
+            ref: "Certificate",
+            required: true
+        }
+    ],
+    projects : [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Project",
+            required: true
+        }
+    ],
+    skills : [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Skill",
+            required: true
+        }
+    ],
+    privateMessages : [
+        {
+            type: Schema.Types.ObjectId,
+            ref : "PrivateMessage",
+            required: true
         }
     ]
 })
 
-UserSchema.methods = {
-    createAccessToken : function (){
-        try{
-            const {_id} = this;
-            const detailkutoken = jwt.sign({
-                "uid" : _id
-            },process.env.SECRET_AT!,{
-                expiresIn : "2d"
-            });
 
-            return detailkutoken;
+const User = model<IUser>("User", UserSchema);
 
-        }catch(e){
-            return false
-        }
-    }
-}
-
-const UserModel = model<IUser>("User", UserSchema);
-
-export default UserModel;
+export default User
