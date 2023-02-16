@@ -87,7 +87,7 @@ export const usernnameBased = async (req: Request, res: Response) => {
     try{
         const {username} = req.params;
         
-        const data = await User.find({username: username})
+        const data = await User.findOne({username: username})
             .populate("skills")
             .populate("certificates")
             .populate("projects")
