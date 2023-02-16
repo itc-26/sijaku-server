@@ -1,11 +1,9 @@
   
 ## Sijaku-Server
-<hr/>
 
 ExpressJS based REST API intended for [detailku-sija](https://github.com/NAoHR/detailku-sija). Built with MongoDB as its Database and integrated it with mongoose ORM. An Enhanced version of previous [detailku-server](https://github.com/NAoHR/detailku-server)
 
 ## Feature:
-<hr/>
 
 - Split routes to four different name
 - 	- `auth` - Route that is related to authentication (admin, user)
@@ -19,7 +17,6 @@ ExpressJS based REST API intended for [detailku-sija](https://github.com/NAoHR/d
 - Featured with Morgan as its logger middleware
 
 ## Library:
-<hr/>
 
 - [ExpressJS](https://expressjs.com/)
 - [Bcrypt](https://www.npmjs.com/package/bcrypt)
@@ -32,7 +29,6 @@ ExpressJS based REST API intended for [detailku-sija](https://github.com/NAoHR/d
 
 
 ## Routes and its Response
-<hr/>
 
 <details>
 <summary><b>Auth Routes</b></summary>
@@ -194,7 +190,6 @@ After filtering process is done, students's detail and its data; such as skill, 
 
 
 ## Contributors
-<hr/>
 
 Made with Love by Najmi ~ [najmim625@gmail.com](mailto:najmim625@gmail.com)
 
