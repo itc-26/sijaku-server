@@ -150,6 +150,7 @@ export const postMemo = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             ok : true,
+            message: "message was successfully added",
             data : data
         })
 
