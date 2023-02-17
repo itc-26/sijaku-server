@@ -64,7 +64,7 @@ routes that are opened to public without any authentication and authorization pr
 - `/student/grade/:grade`
 - `/student/user/:username`
 
-#### 1. `/student`
+#### 1. `/student` - `get`
 this route provides information which describes each class and its total students. This route will return a response like below:
 
 ```json
@@ -87,7 +87,7 @@ this route provides information which describes each class and its total student
 }
 ```
 
-#### 2. `/student/grade/:grade`
+#### 2. `/student/grade/:grade` - `get`
 this route takes grade `(X_SIJA_1, X_SIJA_2, etc)` as its `grade` parameter, students will be filtered to match the `grade` parameter. After filtering process is done, students's detail and its data; such as skill, detail, project, and  certificate will be represented as below:
 
 ```json
@@ -122,7 +122,7 @@ this route takes grade `(X_SIJA_1, X_SIJA_2, etc)` as its `grade` parameter, stu
 },
 ```
 
-#### 3. `/student/user/:username`
+#### 3. `/student/user/:username` - `get`
 this route takes username as its `username` parameter, student will be filtered by its username that is unique to one another so the output of this route either one data or nothing. 
 
 After filtering process is done, students's detail and its data; such as skill, detail, project, and  certificate will be collected by its refrence and will be represented as below:
@@ -180,13 +180,84 @@ After filtering process is done, students's detail and its data; such as skill, 
 }
 ```
 
+### 4. `/job` - `get`
+
+this route provide all jobs related to the current market demand as a form of response like below:
+
+
+```json
+{
+	"ok" : true,
+	"data": [
+		{
+			"salary": {
+				"from": 4000000,
+				"to": 5000000
+			},
+			"_id": "63efa6fa5cd76d946e30b66a",
+			"title": "Jaksel Language Translator",
+			"description": "literally need banget person buat translate all the thing yang kita say, but this person must to have personality yang bagus. and last but not least, this person harus bisa standby 24/7 dikopi kenangan kalo kita call",
+			"reqruiter": "Jakselians",
+			"region": "South Jakarta",
+			"category": "Translator",
+			"more": "https://twitter.com/",
+			"__v": 0
+		}
+	]
+}
+```
+
+### 5. `/memo` - `get` and `post`
+
+this route show all messages from people about this vocation. Not only about this vocation, this route would also show messages for another student or teacher. this simply works like a menfess. The output is presented like below
+
+#### get
+```json
+{
+	"ok" : true,
+	"data" : [
+		{
+			"_id": "63326c44c63fdac019e021aa",
+			"sender": "Anon",
+			"message": "Ketenangan benar sangat mahal",
+			"__v": 0
+		}
+	]
+}
+```
+
+#### post
+```json
+{
+	"ok" : true,
+	"message": "message was successfully added",
+	"data" : {
+		"_id": "63326c44c63fdac019e021aa",
+		"sender": "Anon",
+		"message": "Ketenangan benar sangat mahal",
+		"__v": 0
+  	}
+}
+```
+
+
+
+### 6. `/message/:userId` - `post`
+
+this show is intended to be the route to post a message to a user privately. the output is showed like below
+
+```json
+{
+	"ok" : true,
+	"message": "Message Was Sent"
+}
+
+```
+
+
 
 
 </details>
-
-
-
-
 
 
 ## Contributors
