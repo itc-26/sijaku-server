@@ -11,11 +11,11 @@ export interface IUserLogin {
 }
 
 export interface IRequest extends Request {
-    userCred : {
-        uid: string,
-        jwt: string
+    userCred: {
+      uid: string,
+      jwt: string
     },
-    bucket : ICertificate | IProject | ISkill | IDetailSchema | IPrivateMessage | IDetailSchema | null
+    bucket: ICertificate | IProject | ISkill | IDetailSchema | IPrivateMessage | IDetailSchema | null
 }
 
 export interface IPublicDataAll {

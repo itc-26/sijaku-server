@@ -12,12 +12,11 @@ import { IPrivateMessage } from "../models/PrivateMessage.model";
 
 export const authenticate = (req: IRequest, res: Response, next: NextFunction) => {
     try{
-
         const {authorization} = req.headers;
     
         if(authorization){
             const authToken = authorization.split(" ")[1];
-            return jwt.verify(authToken, process.env.SECRET_AT, async function (err, decoded) {
+            return jwt.verify(authToken, process.env.SECRET_AT as string, async function (err, decoded) {
                 if(err){
                     switch(err.name){
                         case "TokenExpiredError" :
@@ -42,10 +41,9 @@ export const authenticate = (req: IRequest, res: Response, next: NextFunction) =
                 }
     
                 req.userCred = {
-                    uid: decoded?.includes,
+                    uid: decoded && (typeof decoded === "string" ? decoded : decoded.uid),
                     jwt: authToken
                 }
-    
                 return next();
             })
             
@@ -63,7 +61,7 @@ export const authenticate = (req: IRequest, res: Response, next: NextFunction) =
 
 export const authorization = async (req: IRequest, res: Response, next: NextFunction) => {
     try{
-
+        const customReq = req as IRequest;
         const {uid} = req.userCred;
         const postType = req.url.split("/")[2];
         const {postId} = req.params;
