@@ -15,7 +15,6 @@ export const post = async (req: Request, res: Response) => {
     try{
 
         const customReq = req as IRequest;
-        const {uid} = customReq.userCred;
         const {type} = customReq.params;
         const user = customReq.user;
 
@@ -93,7 +92,7 @@ export const me = async (req: Request, res: Response) => {
 export const get = async (req: Request, res: Response) => {
     try{
         const customReq = req as IRequest;
-        const {uid} = customReq.userCred;
+        const uid = customReq.user._id;
         const {type} = req.params;
 
         let bucket: ((IProject | ICertificate | ISkill) & {_id: Types.ObjectId; })[] = [];
@@ -137,7 +136,7 @@ export const edit = async (req: Request, res: Response) => {
     try{
         const customReq = req as IRequest;
 
-        const {uid} = customReq.userCred;
+        const uid = customReq.user._id;
         const {type, id} = req.params;
         const body = customReq.body;
 
@@ -194,7 +193,7 @@ export const del = async (req: Request, res: Response) => {
     try{
         const customReq = req as IRequest;
 
-        const {uid} = customReq.userCred;
+        const uid = customReq.user._id;
         const {type, id} = req.params;
         const user = customReq.user;
 
