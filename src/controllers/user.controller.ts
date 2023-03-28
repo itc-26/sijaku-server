@@ -191,3 +191,66 @@ export const edit = async (req: Request, res: Response) => {
         return errorHandler(e as Error, res);
     }
 }
+
+// =========================== delete ===================== //
+
+export const del = async (req: Request, res: Response) => {
+    try{
+        const customReq = req as IRequest;
+
+        const {uid} = customReq.userCred;
+        const {type, id} = req.params;
+        const user = customReq.user;
+
+        const filter = {
+            belongsTo : uid,
+            _id : id
+        }
+
+        const validator = {
+            runValidators : true,
+            new: true
+        }
+
+        let bucket;
+
+        switch(type){
+            case "cert":
+                bucket  = await UserCert.deleteOne(filter, validator);
+                user.certificates.filter(i => String(i._id) !== id);
+                break;
+
+            case "project":
+                bucket = await Project.deleteOne(filter, validator);
+                user.projects.filter(i => String(i._id) !== id);
+                break;
+
+            case "skill":
+                bucket = await UserSkill.deleteOne(filter, validator);
+                user.skills.filter(i => String(i._id) !== id);
+                break
+
+            default:
+                return res.status(403).json({
+                    ok: false,
+                    message: "invalid method"
+                })
+        }
+
+
+        if(bucket?.deletedCount){
+            await user.save();
+
+            return res.status(200).json({
+                ok: true,
+                message: "data deleted"
+            })
+        }
+
+        throw({"name" : "DNF"})
+
+
+    }catch(e){
+        return errorHandler(e as Error, res);
+    }
+}
