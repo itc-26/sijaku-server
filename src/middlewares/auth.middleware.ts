@@ -9,6 +9,7 @@ import ProjectModel, { IProject } from "../models/Project.model";
 import SkillModel, { ISkill } from "../models/Skill.model";
 import DetailModel, { IDetailSchema } from "../models/Detail.model";
 import { IPrivateMessage } from "../models/PrivateMessage.model";
+import User from "../models/User.model";
 
 export const authenticate = (req: IRequest, res: Response, next: NextFunction) => {
     try{
@@ -39,12 +40,25 @@ export const authenticate = (req: IRequest, res: Response, next: NextFunction) =
                             })
                     }
                 }
-    
-                req.userCred = {
-                    uid: decoded && (typeof decoded === "string" ? decoded : decoded.uid),
-                    jwt: authToken
+
+                const uid = decoded && (typeof decoded === "string" ? decoded : decoded.uid);
+
+                
+                const user = await User.findOne({_id: uid});
+                if(user){
+                    req.user = user;
+                    req.userCred = {
+                        uid: uid,
+                        jwt: authToken
+                    }
+                    return next();
                 }
-                return next();
+
+                return res.status(501).json({
+                    ok : false,
+                    message: "illegal access"
+                })
+                
             })
             
             
