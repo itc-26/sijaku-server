@@ -17,9 +17,6 @@ export const post = async (req: Request, res: Response) => {
         const customReq = req as IRequest;
         const {uid} = customReq.userCred;
         const {type} = customReq.params;
-
-        console.log(uid);
-        
     
         const user = await User.findOne({_id : uid});
         let bucket: ICertificate | IProject | ISkill | null;
@@ -139,7 +136,7 @@ export const get = async (req: Request, res: Response) => {
     }
 }
 
-
+// =========================== edit ===================== //
 export const edit = async (req: Request, res: Response) => {
     try{
         const customReq = req as IRequest;
