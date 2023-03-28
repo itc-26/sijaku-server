@@ -17,47 +17,43 @@ export const post = async (req: Request, res: Response) => {
         const customReq = req as IRequest;
         const {uid} = customReq.userCred;
         const {type} = customReq.params;
-    
-        const user = await User.findOne({_id : uid});
+        const user = customReq.user;
+
         let bucket: ICertificate | IProject | ISkill | null;
     
-        if(user){
-            
-            switch(type){
+        switch(type){
 
-                case "cert":
-                    bucket  = new UserCert(customReq.body);
-                    user.certificates.push(bucket._id);
-                    break;
+            case "cert":
+                bucket  = new UserCert(customReq.body);
+                user.certificates.push(bucket._id);
+                break;
 
-                case "project":
-                    bucket = new Project(customReq.body);
-                    user.projects.push(bucket._id);
-                    break;
+            case "project":
+                bucket = new Project(customReq.body);
+                user.projects.push(bucket._id);
+                break;
 
-                case "skill":
-                    bucket = new UserSkill(customReq.body);
-                    user.skills.push(bucket._id);
-                    break
+            case "skill":
+                bucket = new UserSkill(customReq.body);
+                user.skills.push(bucket._id);
+                break
 
-                default:
-                    return res.status(403).json({
-                        ok: false,
-                        message: "invalid method"
-                    })
-            }
-            bucket.belongsTo = user._id;
-
-            await bucket.save();
-            await user.save();
-
-            return res.status(200).json({
-                ok: true,
-                message : "successfully fetched",
-                data : bucket
-            })
-
+            default:
+                return res.status(403).json({
+                    ok: false,
+                    message: "invalid method"
+                })
         }
+        bucket.belongsTo = user._id;
+
+        await bucket.save();
+        await user.save();
+
+        return res.status(200).json({
+            ok: true,
+            message : "successfully added",
+            data : bucket
+        })
     
         throw({"name" : "UNF"})
     }catch(e){
