@@ -23,7 +23,7 @@ export const post = async (req: Request, res: Response) => {
     
         switch(type){
 
-            case "cert":
+            case "certificate":
                 bucket  = new UserCert(customReq.body);
                 user.certificates.push(bucket._id);
                 break;
@@ -101,7 +101,7 @@ export const get = async (req: Request, res: Response) => {
 
         switch(type){
 
-            case "cert":
+            case "certificate":
                 bucket  = await UserCert.find(filter);
                 break;
 
@@ -154,7 +154,7 @@ export const edit = async (req: Request, res: Response) => {
         let bucket: UpdateWriteOpResult;
 
         switch(type){
-            case "cert":
+            case "certificate":
                 bucket  = await UserCert.updateOne(filter, body, validator);
                 break;
 
@@ -211,7 +211,7 @@ export const del = async (req: Request, res: Response) => {
         let bucket;
 
         switch(type){
-            case "cert":
+            case "certificate":
                 bucket  = await UserCert.deleteOne(filter, validator);
                 user.certificates.filter(i => String(i._id) !== id);
                 break;
