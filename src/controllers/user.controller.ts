@@ -9,6 +9,7 @@ import Project, { IProject } from "../models/Project.model";
 import UserSkill, { ISkill } from "../models/Skill.model";
 import { Types, UpdateWriteOpResult } from "mongoose";
 import UserDetail from "../models/Detail.model";
+import PrivateMessage, { IPrivateMessage } from "../models/PrivateMessage.model";
 
 // =========================== POST ===================== //
 
@@ -96,7 +97,7 @@ export const get = async (req: Request, res: Response) => {
         const uid = customReq.user._id;
         const {type} = req.params;
 
-        let bucket: ((IProject | ICertificate | ISkill) & {_id: Types.ObjectId; })[] = [];
+        let bucket: ((IProject | ICertificate | ISkill | IPrivateMessage) & {_id: Types.ObjectId; })[] = [];
         const filter = {belongsTo : uid}
 
         switch(type){
@@ -112,7 +113,9 @@ export const get = async (req: Request, res: Response) => {
             case "skill":
                 bucket = await UserSkill.find(filter);
                 break
-
+            case "message":
+                bucket = await PrivateMessage.find(filter);
+                break
             default:
                 return res.status(403).json({
                     ok: false,
@@ -123,7 +126,7 @@ export const get = async (req: Request, res: Response) => {
 
         return res.status(200).json({
             ok: true,
-            message : "data added",
+            message : "data fetched",
             data : bucket
         })
 
