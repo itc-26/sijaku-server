@@ -8,6 +8,7 @@ import UserCert, { ICertificate } from "../models/Cert.model";
 import Project, { IProject } from "../models/Project.model";
 import UserSkill, { ISkill } from "../models/Skill.model";
 import { Types, UpdateWriteOpResult } from "mongoose";
+import UserDetail from "../models/Detail.model";
 
 // =========================== POST ===================== //
 
@@ -165,6 +166,10 @@ export const edit = async (req: Request, res: Response) => {
                 bucket = await UserSkill.updateOne(filter, body, validator);
                 break
 
+            case "detail":
+                bucket = await UserDetail.updateOne(filter, body, validator);
+                break
+
             default:
                 return res.status(403).json({
                     ok: false,
@@ -175,7 +180,7 @@ export const edit = async (req: Request, res: Response) => {
         if(bucket.matchedCount > 0){
             return res.status(200).json({
                 ok: true,
-                message: "updated"
+                message: `${type} updated`
             })
         }
 
