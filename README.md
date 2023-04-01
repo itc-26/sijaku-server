@@ -260,6 +260,171 @@ this show is intended to be the route to post a message to a user privately. the
 </details>
 
 
+<details>
+<summary><b>User Routes</b></summary>
+
+### User - `/api/user`
+
+routes that can only be accessed by user that already passed all authentication and authorization process. This routes provide endpoints such as:
+- `/me`
+- `/get/:type`
+- `/post/:type`
+- `/edit/:type/:id`
+- `/delete/:type/:id`
+
+this route accept `Authorization` header filled with `bearer <token>`. To create the private key, you should create a file called `.env`. You can see the example on `.env_sample`
+
+```json
+{
+	"Authorization" : "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2M2VlNGU0MzU1YWRkMTAzZmM2MDE5ZmMiLCJpYXQiOjE2ODAzMTQ5MTUsImV4cCI6MTY4MDQ4NzcxNX0.kdbDMioEmSrARqGTq2a2SBh2nFhpcQ3EmxUNiARJY-s"
+}
+```
+
+#### 1. `/me` - `get`
+This routes provides a clear information of the current user you are logged in
+
+```json
+{
+    "ok": true,
+    "data": {
+        "_id": "63ee4e4355add103fc6019fc",
+        "name": "abitama mawlana",
+        "grade": "X_SIJA_1",
+        "username": "abitamamawlana_1",
+        "certificates": [
+            // all your certificates
+        ],
+        "projects": [
+            // all your projects
+        ],
+        "skills": [
+            // all your skills
+        ],
+        "privateMessages": [
+            "63ee4e4355add103fc6019fd"
+        ],
+        "details": {
+            "_id": "63ee4e4355add103fc601a01",
+            "belongsTo": "63ee4e4355add103fc6019fc",
+            "description": "tidak semua dapat dimengerti, namun semua pasti punya arti",
+            "linkedin": "https://www.linkedin.com/in/",
+            "github": "http://github.com/",
+            "email": "lovelyemail@gmail.com",
+            "web": "https://i.giphy.com/media/26BRv0ThflsHCqDrG/giphy.webp",
+            "__v": 0
+        },
+        "__v": 0
+    }
+}
+```
+
+#### 2. `/get/:type` - `get`
+
+this route is divided into three different endpoint such as
+- `/get/certificate` - certificates
+- `/get/project` - project
+- `/get/skill` skill
+
+for example, here's the response of `/get/certificate`
+
+```json
+{
+    "ok": true,
+    "message": "data fetched",
+    "data": [
+        {
+            "_id": "63ee4e4355add103fc6019fe",
+            "belongsTo": "63ee4e4355add103fc6019fc",
+            "title": "Makhluk Paling Bahagia",
+            "organizer": "Pt dalam diri Tbk",
+            "certID": "AYOBAHAGIA-99221",
+            "certLink": "https://www.reactiongifs.com/wp-content/uploads/2012/10/Bob-Ross-Beauty.gif",
+            "__v": 0
+        }
+    ]
+}
+```
+#### 3. `/post/:type` - `post`
+this route allow you to post all your data such as
+- `/post/certificate` - certificates
+- `/post/project` - project
+- `/post/skill` skill
+
+you must filled the requirement of each route while you are sending your data to this route, you can include it in your request's body
+
+here's a body payload example if you want to post a skill to this route
+```json
+{
+    "skillName": "Menikmati Hidup",
+    "percentage": 69
+}
+```
+
+and you will get this response if the request was successfully sent
+
+```json
+{
+    "ok": true,
+    "message": "successfully added",
+    "data": {
+        "skillName": "Menikmati Hidup",
+        "percentage": 69,
+        "_id": "642795572cf265e4960a82a5",
+        "belongsTo": "63ee4e4355add103fc6019fc",
+        "__v": 0
+    }
+}
+```
+
+#### 4. `/edit/:type/:id` - `put`
+this route gives you an access to edit your data such as
+- `/edit/certificate` - certificates
+- `/edit/project` - project
+- `/edit/skill` skill
+
+this endpoint also accept `id` to post that you want to edit
+
+you must filled the requirement of each route while you are sending your data to this route, you can include it in your request's body
+
+here's an example of request body payload if you want to edit skill that has an `id` of `642795572cf265e4960a82a5` (`/edit/skill/642795572cf265e4960a82a5`)
+
+```json
+{
+    "percentage": 90
+}
+```
+
+and you will get this response
+
+```json
+{
+    "ok": true,
+    "message": "skill updated"
+}
+```
+#### 4. `/delete/:type/:id` - `delete`
+
+this route gives you an access to delete your data such as
+- `/edit/certificate` - certificates
+- `/edit/project` - project
+- `/edit/skill` skill
+
+this endpoint also accept `id` to post that you want to edit
+
+you must filled the requirement of each route while you are sending your data to this route, you can include it in your request's body
+
+here's an example if you want to delete skill that has an `id` of `642795572cf265e4960a82a5` (`/delete/skill/642795572cf265e4960a82a5`), you will get this output
+
+```json
+{
+    "ok": true,
+    "message": "data deleted"
+}
+```
+
+</details>
+
+
 ## Contributors
 
 Made with Love by Najmi ~ [najmim625@gmail.com](mailto:najmim625@gmail.com)
